@@ -125,8 +125,25 @@ lineplt3.set(xlabel='Year', ylabel='Temperature (C)')
 lineplt3.set_title('Temperature trends over last 200 years')
 
 # remove legend title
-handles, labels = lineplt2.get_legend_handles_labels()
-lineplt2.legend(handles=handles[1:], labels=labels[1:])
+handles, labels = lineplt3.get_legend_handles_labels()
+lineplt3.legend(handles=handles[1:], labels=labels[1:])
 # make filename
 filename = add_timestamp('temp_line_plot_10yr', 'pdf')
 plt.savefig(wd + filename)
+
+# correlation between global and Denver
+sns.pairplot(tempdata3, vars=['Denver_T_10yr_moving_avg', 'Global_T_10yr_moving_avg'])
+scatterplt = sns.scatterplot(x="Denver_T_10yr_moving_avg", y="Global_T_10yr_moving_avg", data=tempdata3)
+
+# not quite normal?
+sns.distplot(tempdata3['Denver_T_10yr_moving_avg'])
+
+x = tempdata3['Denver_T_10yr_moving_avg']
+y = tempdata3['Global_T_10yr_moving_avg']
+
+x.corr(y)
+x.corr(y, method='spearman')
+
+# four observations
+
+# predict Denver temp using global temp using regression
